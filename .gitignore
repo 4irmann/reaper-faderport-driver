@@ -1,0 +1,5 @@
+cpp/build/
+cpp/out/
+.vs/
+*.user
+.vscode/

@@ -1,0 +1,21 @@
+# Airmann's FaderPort Driver: DSP bindings
+# <fx name substring>: <fader>,<pan>; <fader>,<pan>; ...
+# entries: 1-based parameter index, parameter name prefix or 0 (nothing)
+
+generic_fallback = true
+
+# REAPER stock plugins
+# TODO verify parameter names with "Show FX parameters" for your REAPER version
+ReaEQ: 2,1; 5,4; 8,7; 11,10; 3,6; 9,12
+ReaComp: Thresh,Ratio; Attack,Release; Wet,Dry; Knee,Pre-comp
+ReaXcomp: Wet,Dry
+ReaGate: Thresh,Hold; Attack,Release; Wet,Dry
+ReaLimit: Threshold,Ceiling
+ReaDelay: Wet,Dry
+ReaVerbate: Wet,Dry; Room size,Dampening; Stereo width,Initial delay
+ReaVerb: Wet,Dry
+ReaFIR: Gain,0
+
+# Voxengo (indices taken over from the Renoise driver)
+Elephant: 3,4
+Polysquasher: 5,1; 3,4; 2,2

@@ -1,0 +1,35 @@
+name: build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lua-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y lua5.4
+      - run: lua5.4 lua/tests/run_tests.lua
+
+  cpp:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -S cpp -B cpp/build -DCMAKE_BUILD_TYPE=Release
+      - name: Build
+        run: cmake --build cpp/build --config Release
+      - name: Test
+        run: ctest --test-dir cpp/build -C Release --output-on-failure
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reaper_airmann_faderport-${{ matrix.os }}
+          path: |
+            cpp/build/**/reaper_airmann_faderport.dll
+            cpp/build/**/reaper_airmann_faderport.dylib
+            cpp/build/**/reaper_airmann_faderport.so
