@@ -16,13 +16,12 @@ FetchContent_Declare(reaper_sdk
 FetchContent_MakeAvailable(reaper_sdk)
 
 # WDL/SWELL is required for macOS/Linux only. reaper_plugin.h includes
-# "../WDL/swell/swell.h", so WDL is placed next to the SDK's sdk folder.
+# "../WDL/swell/swell.h". The repository contains the sources in its WDL/ subfolder,
+# so <wdl>/WDL is added as include directory: <wdl>/WDL/../WDL/swell/swell.h
 if(NOT WIN32)
   FetchContent_Declare(wdl
     GIT_REPOSITORY https://github.com/justinfrankel/WDL.git
-    GIT_TAG 61c5553aad0d257775a4dd7bf36b8be617ec8281
-    GIT_SHALLOW FALSE
-    SOURCE_DIR ${reaper_sdk_SOURCE_DIR}/WDL)
+    GIT_TAG 61c5553aad0d257775a4dd7bf36b8be617ec8281)
   FetchContent_MakeAvailable(wdl)
 endif()
 
@@ -42,6 +41,7 @@ function(faderport_setup target)
   else()
     target_compile_options(${target} PRIVATE -Wall -Wextra)
     if(NOT WIN32)
+      target_include_directories(${target} PRIVATE ${wdl_SOURCE_DIR}/WDL)
       target_compile_definitions(${target} PRIVATE SWELL_PROVIDED_BY_APP)
     endif()
   endif()
