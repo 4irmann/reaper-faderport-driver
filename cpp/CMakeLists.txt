@@ -34,14 +34,18 @@ set(FADERPORT_CORE_SOURCES
   src/reaper_api.cpp)
 
 function(faderport_setup target)
-  target_include_directories(${target} PRIVATE src ${reaper_sdk_SOURCE_DIR}/sdk)
+  target_include_directories(${target} PRIVATE src)
+  # third party headers as system includes: no warnings from SDK/WDL
+  target_include_directories(${target} SYSTEM PRIVATE ${reaper_sdk_SOURCE_DIR}/sdk)
+  # windows.h and SWELL both define min/max macros unless NOMINMAX is set
+  target_compile_definitions(${target} PRIVATE NOMINMAX)
   if(MSVC)
     target_compile_options(${target} PRIVATE /W4 /utf-8)
-    target_compile_definitions(${target} PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN _CRT_SECURE_NO_WARNINGS)
+    target_compile_definitions(${target} PRIVATE WIN32_LEAN_AND_MEAN _CRT_SECURE_NO_WARNINGS)
   else()
     target_compile_options(${target} PRIVATE -Wall -Wextra)
     if(NOT WIN32)
-      target_include_directories(${target} PRIVATE ${wdl_SOURCE_DIR}/WDL)
+      target_include_directories(${target} SYSTEM PRIVATE ${wdl_SOURCE_DIR}/WDL)
       target_compile_definitions(${target} PRIVATE SWELL_PROVIDED_BY_APP)
     endif()
   endif()
