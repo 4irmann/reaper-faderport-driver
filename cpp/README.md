@@ -15,7 +15,7 @@ A native REAPER extension (`reaper_4irmann_faderport.dll` / `.dylib` / `.so`) fo
 | Focused FX | Polls `GetFocusedFX2` | Callback `CSURF_EXT_SETFOCUSEDFX` |
 | Emulator | Built in | `lua/4irmann_FaderPort - C++ emulator.lua` (same window, connected through the ReaScript API) |
 | DSP bindings | `lua/faderport/bindings.lua` | Built-in defaults, or `<resource path>/4irmann_faderport_bindings.txt` (template: [4irmann_faderport_bindings.txt](4irmann_faderport_bindings.txt)) |
-| Installation | No build step | Build per platform |
+| Installation | No build step | Prebuilt binaries in the releases, or build per platform |
 
 **Resolution:** The FaderPort transmits the fader with 10 bits (1024 steps) in both directions. That
 is a limit of the hardware and protocol, and it applies to both variants. The pan encoder sends
@@ -38,6 +38,13 @@ ctest --test-dir build -C Release --output-on-failure
 CMake downloads the REAPER SDK, and WDL on macOS/Linux, at pinned commits.
 
 ## Installation
+
+**Windows:** use the installer from the [releases](https://github.com/4irmann/reaper-faderport-driver/releases),
+installation type "C++ extension (recommended)". It installs the extension and the emulator, and
+removes files of older versions. After that, only the MIDI setup (step 2) is left.
+
+**Manual installation:** the release contains the prebuilt `reaper_4irmann_faderport.dll`, `.dylib`
+and `.so`. To build it yourself, see [Build](#build).
 
 1. Copy `reaper_4irmann_faderport.dll` (Windows), `.dylib` (macOS), or `.so` (Linux) to
    `<REAPER resource path>/UserPlugins/` and restart REAPER.

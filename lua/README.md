@@ -11,11 +11,19 @@ Port of the Renoise tool *4irmann's FaderPort Driver* (v1.1).
 - Emulator window: a virtual FaderPort, usable with or without the hardware
 
 Requires REAPER 6.x or later. Development and testing use REAPER 7.
+The [manual](../MANUAL.md) describes all functions in detail.
 
 ## Installation
 
+**Windows:** use the installer from the [releases](https://github.com/4irmann/reaper-faderport-driver/releases).
+Choose the installation type "Lua ReaScript". The installer registers the actions on the next REAPER
+start and can also start the driver automatically. After that, only the MIDI setup (step 3) is left.
+
+**Manual installation (all platforms):** the release contains the scripts as
+`reaper-faderport-driver-lua-<version>.zip`.
+
 1. Copy this folder to your REAPER resource path under `Scripts/` (Options → Show REAPER resource path).
-   For example: `%APPDATA%\REAPER\Scripts\Reaper-Faderport\`.
+   For example: `%APPDATA%\REAPER\Scripts\reaper-faderport-driver\`.
 2. Actions → Show action list → *New action… → Load ReaScript…* and load these files:
    - `4irmann_FaderPort.lua`: starts and stops the driver (toggle action, toolbar friendly)
    - `4irmann_FaderPort - Toggle emulator.lua`
@@ -34,7 +42,7 @@ Requires REAPER 6.x or later. Development and testing use REAPER 7.
 
 ### Auto start
 
-Copy the command ID of `4irmann_FaderPort.lua` from the action list (right click → *Copy selected
+The Windows installer can set this up for you. For a manual installation, copy the command ID of `4irmann_FaderPort.lua` from the action list (right click → *Copy selected
 action command ID*) and add this line to `Scripts/__startup.lua`:
 
 ```lua
@@ -42,6 +50,8 @@ reaper.Main_OnCommand(reaper.NamedCommandLookup("_RS<your id>"), 0)
 ```
 
 ## Button mapping
+
+Quick reference. For details see the [manual](../MANUAL.md#control-overview).
 
 | Button | REAPER | Shift + button | Renoise driver had |
 |---|---|---|---|
@@ -72,8 +82,10 @@ REAPER's help/status line and in the emulator window.
 
 ## Configuration
 
-- `faderport/config.lua`: defaults (device name pattern, resolution, timeouts, …). Values you toggle
-  with the helper actions (emulator, MIDI dump) are stored in REAPER's ExtState and override these defaults.
+- `faderport/config.lua`: defaults (device name pattern, resolution, timeouts, …). Values in REAPER's
+  ExtState section `4irmannFaderPort` override these defaults, for example the values you toggle with the
+  helper actions (emulator, MIDI dump). The C++ variant shares this section; all keys are listed in the
+  [manual](../MANUAL.md#preferences).
 - `faderport/bindings.lua`: DSP bindings by FX name, with parameter index or name prefix.
   The *Show FX parameters* action prints the parameter list of the focused FX. If an FX has no entry,
   its parameters are bound pairwise (1,2), (3,4), …
@@ -101,4 +113,4 @@ The tests use a mocked REAPER API (`tests/mock_reaper.lua`) and need a plain Lua
 
 ## License
 
-Apache License 2.0, see `LICENSE` and `NOTICE`.
+Apache License 2.0, see [LICENSE](../LICENSE) and [NOTICE](../NOTICE).
