@@ -3,7 +3,7 @@
 A native REAPER extension (`reaper_4irmann_faderport.dll` / `.dylib` / `.so`) for the
 **PreSonus FaderPort (classic)**. It has the same features and the same button mapping as the
 [Lua variant](../lua/README.md). The two variants share their settings through REAPER's ExtState
-(section `4irmannFaderPort`).
+(section `4irmannFaderPort`). The [manual](../MANUAL.md) describes all functions in detail.
 
 ## Differences from the Lua variant
 
@@ -37,6 +37,9 @@ ctest --test-dir build -C Release --output-on-failure
 
 CMake downloads the REAPER SDK, and WDL on macOS/Linux, at pinned commits.
 
+The version shown in the DLL properties and in REAPER defaults to the project version. Set it with
+`-DFADERPORT_VERSION=2.0.1`; CI uses the release tag for this.
+
 ## Installation
 
 **Windows:** use the installer from the [releases](https://github.com/4irmann/reaper-faderport-driver/releases),
@@ -55,7 +58,10 @@ and `.so`. To build it yourself, see [Build](#build).
    - `4irmann FaderPort (C++): Reset`
    - `4irmann FaderPort (C++): Toggle MIDI dump`
    - `4irmann FaderPort (C++): Show FX parameters`
-4. Optional emulator: load `lua/4irmann_FaderPort - C++ emulator.lua` as an action.
+4. Optional emulator: copy the `lua` folder (or the Lua ZIP from the release) to
+   `<REAPER resource path>/Scripts/reaper-faderport-driver/`, and load
+   `4irmann_FaderPort - C++ emulator.lua` from there as an action. The script needs the `faderport/`
+   subfolder next to it.
 
 The Lua and C++ drivers lock each other out. Only one of them can run at a time.
 
@@ -69,4 +75,5 @@ The Lua and C++ drivers lock each other out. Only one of them can run at a time.
 | `src/params.*` | Track volume/pan, FX parameters |
 | `src/midi_io.*` | Device lookup by name, MIDI I/O with time stamps |
 | `src/bindings.*`, `src/config.*`, `src/protocol.h` | DSP bindings, settings, FaderPort protocol |
+| `src/version.rc.in` | Windows version resource (description and version in REAPER's extension list) |
 | `tests/` | Unit tests against a mocked REAPER API |
