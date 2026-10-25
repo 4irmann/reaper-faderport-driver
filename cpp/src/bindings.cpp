@@ -16,7 +16,7 @@ namespace {
 // the order/focus of the bindings is laid on (final) mixing and not creative sound
 // design. Means: level and stereo parameters like wet/gain/pan/width are usually
 // the first binding pairs.
-const char *DEFAULT_TEXT = R"(# Airmann's FaderPort Driver: DSP bindings
+const char *DEFAULT_TEXT = R"(# 4irmann's FaderPort Driver: DSP bindings
 # <fx name substring>: <fader>,<pan>; <fader>,<pan>; ...
 # entries: 1-based parameter index, parameter name prefix or 0 (nothing)
 
@@ -119,7 +119,7 @@ Bindings Bindings::parse(const std::string &text)
 
 Bindings Bindings::load()
 {
-  std::string path = std::string(GetResourcePath()) + "/airmann_faderport_bindings.txt";
+  std::string path = std::string(GetResourcePath()) + "/4irmann_faderport_bindings.txt";
   std::ifstream file(std::filesystem::u8path(path));
   if (file)
   {

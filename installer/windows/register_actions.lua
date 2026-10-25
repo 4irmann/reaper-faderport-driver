@@ -1,5 +1,5 @@
 --[[
-  Airmann's FaderPort Driver: action registration (called from Scripts/__startup.lua)
+  4irmann's FaderPort Driver: action registration (called from Scripts/__startup.lua)
 
   Written by the Windows installer. Registers the installed Lua scripts listed in
   register_actions.txt in REAPER's action list via the official API and starts the
@@ -30,7 +30,7 @@ for _, name in ipairs(scripts) do
   local path = dir .. name
   if reaper.file_exists(path) then
     local id = reaper.AddRemoveReaScript(true, 0, path, true)
-    if name == "Airmann_FaderPort.lua" then
+    if name == "4irmann_FaderPort.lua" then
       main_id = id
     end
   end

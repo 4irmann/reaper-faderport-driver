@@ -1,4 +1,4 @@
-# Airmann's FaderPort Driver: DSP bindings
+# 4irmann's FaderPort Driver: DSP bindings
 # <fx name substring>: <fader>,<pan>; <fader>,<pan>; ...
 # entries: 1-based parameter index, parameter name prefix or 0 (nothing)
 

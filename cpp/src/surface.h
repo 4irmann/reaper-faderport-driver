@@ -24,8 +24,8 @@ public:
   void set_enabled(bool enabled) { enabled_ = enabled; }
   bool enabled() const { return enabled_; }
 
-  const char *GetTypeString() override { return "AIRMANNFADERPORT"; }
-  const char *GetDescString() override { return "Airmann's FaderPort Driver"; }
+  const char *GetTypeString() override { return "FADERPORT4IRMANN"; }
+  const char *GetDescString() override { return "4irmann's FaderPort Driver"; }
   const char *GetConfigString() override { return ""; }
 
   void Run() override

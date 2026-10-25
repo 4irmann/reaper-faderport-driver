@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(reaper_airmann_faderport VERSION 2.0.0 LANGUAGES CXX)
+project(reaper_4irmann_faderport VERSION 2.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -65,21 +65,21 @@ function(faderport_setup target)
   endif()
 endfunction()
 
-# REAPER extension: reaper_airmann_faderport.dll / .dylib / .so
-add_library(reaper_airmann_faderport SHARED ${FADERPORT_CORE_SOURCES} src/plugin.cpp)
-faderport_setup(reaper_airmann_faderport)
-set_target_properties(reaper_airmann_faderport PROPERTIES
+# REAPER extension: reaper_4irmann_faderport.dll / .dylib / .so
+add_library(reaper_4irmann_faderport SHARED ${FADERPORT_CORE_SOURCES} src/plugin.cpp)
+faderport_setup(reaper_4irmann_faderport)
+set_target_properties(reaper_4irmann_faderport PROPERTIES
   PREFIX ""
   CXX_VISIBILITY_PRESET hidden)
 if(APPLE)
-  set_target_properties(reaper_airmann_faderport PROPERTIES SUFFIX ".dylib")
+  set_target_properties(reaper_4irmann_faderport PROPERTIES SUFFIX ".dylib")
 endif()
 if(WIN32)
-  target_sources(reaper_airmann_faderport PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
+  target_sources(reaper_4irmann_faderport PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
 endif()
 if(MSVC)
   # static runtime: no VC++ redistributable needed on the target machine
-  set_property(TARGET reaper_airmann_faderport PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+  set_property(TARGET reaper_4irmann_faderport PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 
 if(FADERPORT_BUILD_TESTS)

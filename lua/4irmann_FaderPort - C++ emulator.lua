@@ -1,6 +1,6 @@
 --[[
-  Airmann's FaderPort Driver: emulator window for the C++ driver extension
-  (reaper_airmann_faderport). Same window as the Lua emulator, connected to the
+  4irmann's FaderPort Driver: emulator window for the C++ driver extension
+  (reaper_4irmann_faderport). Same window as the Lua emulator, connected to the
   C++ driver via its ReaScript API. Run again to close.
 ]]
 
@@ -9,7 +9,7 @@ package.path = script_path .. "faderport/?.lua;" .. package.path
 
 local Bridge = require("cpp_bridge")
 if not Bridge.available() then
-  reaper.MB("The C++ FaderPort extension (reaper_airmann_faderport) is not installed.", "FaderPort", 0)
+  reaper.MB("The C++ FaderPort extension (reaper_4irmann_faderport) is not installed.", "FaderPort", 0)
   return
 end
 

@@ -1,10 +1,10 @@
 /*------------------------------------------------------------------------------------
 
-  Airmann's FaderPort Driver for REAPER (C++ extension)
+  4irmann's FaderPort Driver for REAPER (C++ extension)
 
   Entry point: loads the REAPER API, registers the control surface instance,
   actions and the ReaScript API used by the emulator window of the Lua variant
-  ("Airmann_FaderPort - C++ emulator.lua").
+  ("4irmann_FaderPort - C++ emulator.lua").
 
   Copyright 2010-2026 Matthias Ehrmann,
 
@@ -138,21 +138,21 @@ int register_action(const char *id, const char *name)
 
 //------------------------------------------------------------- emulator bridge
 
-void AirmannFaderPort_EmuSend(int status, int data1, int data2)
+void FaderPort4irmann_EmuSend(int status, int data1, int data2)
 {
   if (g_driver && g_surface_instance->enabled())
     g_driver->midi_callback({static_cast<uint8_t>(status), static_cast<uint8_t>(data1),
                              static_cast<uint8_t>(data2)}, time_precise());
 }
 
-const char *AirmannFaderPort_EmuReceive()
+const char *FaderPort4irmann_EmuReceive()
 {
   g_emu_out.swap(g_emu_queue);
   g_emu_queue.clear();
   return g_emu_out.c_str();
 }
 
-void AirmannFaderPort_EmuAttach(bool attach)
+void FaderPort4irmann_EmuAttach(bool attach)
 {
   if (attach && !g_emu_sink)
   {
@@ -174,20 +174,20 @@ void AirmannFaderPort_EmuAttach(bool attach)
     g_driver->invalidate(); // resend lights and fader position
 }
 
-const char *AirmannFaderPort_GetStatus()
+const char *FaderPort4irmann_GetStatus()
 {
   g_status_out = g_surface_instance->enabled() ? g_driver->status() : "C++ driver disabled";
   return g_status_out.c_str();
 }
 
-bool AirmannFaderPort_IsHardwareConnected()
+bool FaderPort4irmann_IsHardwareConnected()
 {
   return g_surface_instance->enabled() && g_driver->hardware_connected();
 }
 
 void *EmuSend_vararg(void **args, int)
 {
-  AirmannFaderPort_EmuSend(static_cast<int>(reinterpret_cast<INT_PTR>(args[0])),
+  FaderPort4irmann_EmuSend(static_cast<int>(reinterpret_cast<INT_PTR>(args[0])),
                            static_cast<int>(reinterpret_cast<INT_PTR>(args[1])),
                            static_cast<int>(reinterpret_cast<INT_PTR>(args[2])));
   return nullptr;
@@ -195,23 +195,23 @@ void *EmuSend_vararg(void **args, int)
 
 void *EmuReceive_vararg(void **, int)
 {
-  return const_cast<char *>(AirmannFaderPort_EmuReceive());
+  return const_cast<char *>(FaderPort4irmann_EmuReceive());
 }
 
 void *EmuAttach_vararg(void **args, int)
 {
-  AirmannFaderPort_EmuAttach(reinterpret_cast<INT_PTR>(args[0]) != 0);
+  FaderPort4irmann_EmuAttach(reinterpret_cast<INT_PTR>(args[0]) != 0);
   return nullptr;
 }
 
 void *GetStatus_vararg(void **, int)
 {
-  return const_cast<char *>(AirmannFaderPort_GetStatus());
+  return const_cast<char *>(FaderPort4irmann_GetStatus());
 }
 
 void *IsHardwareConnected_vararg(void **, int)
 {
-  return reinterpret_cast<void *>(static_cast<INT_PTR>(AirmannFaderPort_IsHardwareConnected()));
+  return reinterpret_cast<void *>(static_cast<INT_PTR>(FaderPort4irmann_IsHardwareConnected()));
 }
 
 #define REGISTER_API(name, def)                                                        \
@@ -220,23 +220,23 @@ void *IsHardwareConnected_vararg(void **, int)
   g_rec->Register("APIvararg_" #name, reinterpret_cast<void *>(&name##_vararg_impl))
 
 // vararg names expected by REGISTER_API
-#define AirmannFaderPort_EmuSend_vararg_impl EmuSend_vararg
-#define AirmannFaderPort_EmuReceive_vararg_impl EmuReceive_vararg
-#define AirmannFaderPort_EmuAttach_vararg_impl EmuAttach_vararg
-#define AirmannFaderPort_GetStatus_vararg_impl GetStatus_vararg
-#define AirmannFaderPort_IsHardwareConnected_vararg_impl IsHardwareConnected_vararg
+#define FaderPort4irmann_EmuSend_vararg_impl EmuSend_vararg
+#define FaderPort4irmann_EmuReceive_vararg_impl EmuReceive_vararg
+#define FaderPort4irmann_EmuAttach_vararg_impl EmuAttach_vararg
+#define FaderPort4irmann_GetStatus_vararg_impl GetStatus_vararg
+#define FaderPort4irmann_IsHardwareConnected_vararg_impl IsHardwareConnected_vararg
 
 void register_api()
 {
-  REGISTER_API(AirmannFaderPort_EmuSend,
+  REGISTER_API(FaderPort4irmann_EmuSend,
                "void\0int,int,int\0status,data1,data2\0FaderPort emulator: send a FaderPort MIDI message to the C++ driver.");
-  REGISTER_API(AirmannFaderPort_EmuReceive,
+  REGISTER_API(FaderPort4irmann_EmuReceive,
                "const char*\0\0\0FaderPort emulator: messages the C++ driver sent since the last call, 6 hex chars each.");
-  REGISTER_API(AirmannFaderPort_EmuAttach,
+  REGISTER_API(FaderPort4irmann_EmuAttach,
                "void\0bool\0attach\0FaderPort emulator: start/stop receiving messages of the C++ driver.");
-  REGISTER_API(AirmannFaderPort_GetStatus,
+  REGISTER_API(FaderPort4irmann_GetStatus,
                "const char*\0\0\0FaderPort: status line of the C++ driver.");
-  REGISTER_API(AirmannFaderPort_IsHardwareConnected,
+  REGISTER_API(FaderPort4irmann_IsHardwareConnected,
                "bool\0\0\0FaderPort: true if the C++ driver is connected to the hardware.");
 }
 
@@ -283,10 +283,10 @@ extern "C" REAPER_PLUGIN_DLL_EXPORT int REAPER_PLUGIN_ENTRYPOINT(REAPER_PLUGIN_H
   g_surface_instance = std::make_unique<Surface>(*g_driver);
   g_surface = g_surface_instance.get();
 
-  g_cmd_toggle = register_action("AIRMANN_FADERPORT_TOGGLE", "Airmann FaderPort (C++): Enable/disable driver");
-  g_cmd_reset = register_action("AIRMANN_FADERPORT_RESET", "Airmann FaderPort (C++): Reset");
-  g_cmd_dump = register_action("AIRMANN_FADERPORT_DUMP", "Airmann FaderPort (C++): Toggle MIDI dump");
-  g_cmd_fx_info = register_action("AIRMANN_FADERPORT_FX_INFO", "Airmann FaderPort (C++): Show FX parameters");
+  g_cmd_toggle = register_action("FADERPORT_4IRMANN_TOGGLE", "4irmann FaderPort (C++): Enable/disable driver");
+  g_cmd_reset = register_action("FADERPORT_4IRMANN_RESET", "4irmann FaderPort (C++): Reset");
+  g_cmd_dump = register_action("FADERPORT_4IRMANN_DUMP", "4irmann FaderPort (C++): Toggle MIDI dump");
+  g_cmd_fx_info = register_action("FADERPORT_4IRMANN_FX_INFO", "4irmann FaderPort (C++): Show FX parameters");
   rec->Register("hookcommand2", reinterpret_cast<void *>(&on_action));
   rec->Register("toggleaction", reinterpret_cast<void *>(&toggle_state));
 

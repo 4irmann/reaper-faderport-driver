@@ -3,7 +3,7 @@
   FaderPort preferences
 
   Defaults are defined here. Values toggled via actions (emulator, midi dump ...)
-  are persisted in REAPER's ExtState section "AirmannFaderPort" and override
+  are persisted in REAPER's ExtState section "4irmannFaderPort" and override
   the defaults below.
 
   Copyright 2010-2026 Matthias Ehrmann, Apache License 2.0
@@ -12,7 +12,7 @@
 
 local config = {}
 
-config.SECTION = "AirmannFaderPort"
+config.SECTION = "4irmannFaderPort"
 
 local defaults = {
 

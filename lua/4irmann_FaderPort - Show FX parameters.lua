@@ -1,5 +1,5 @@
 --[[
-  Airmann's FaderPort Driver: show FX parameters and DSP bindings (replaces the
+  4irmann's FaderPort Driver: show FX parameters and DSP bindings (replaces the
   Renoise "Device Infos" dialog).
 
   Prints the focused FX (or the first FX of the selected track) with its 1-based

@@ -1,10 +1,10 @@
-﻿; Airmann's FaderPort Driver for REAPER - Windows installer (Inno Setup 6)
+﻿; 4irmann's FaderPort Driver for REAPER - Windows installer (Inno Setup 6)
 ;
 ; Build (after building the C++ extension, DllPath absolute or relative to this file):
 ;   iscc /DAppVersion=2.0.0 installer\windows\reaper-faderport-driver.iss
 ;
 ; Installs into the REAPER resource path (default %APPDATA%\REAPER, portable installs selectable):
-;   UserPlugins\reaper_airmann_faderport.dll      C++ extension
+;   UserPlugins\reaper_4irmann_faderport.dll      C++ extension
 ;   Scripts\reaper-faderport-driver\...            Lua driver, helper actions, emulator
 ; Lua actions are registered on the next REAPER start via the ReaScript API
 ; (Scripts\__startup.lua -> register_actions.lua), so reaper-kb.ini is only touched on uninstall.
@@ -13,10 +13,10 @@
   #define AppVersion "2.0.0"
 #endif
 #ifndef DllPath
-  #define DllPath "..\..\cpp\build\Release\reaper_airmann_faderport.dll"
+  #define DllPath "..\..\cpp\build\Release\reaper_4irmann_faderport.dll"
 #endif
 
-#define AppName "Airmann's FaderPort Driver for REAPER"
+#define AppName "4irmann's FaderPort Driver for REAPER"
 #define ScriptDir "reaper-faderport-driver"
 #define StartupBegin "-- BEGIN reaper-faderport-driver (managed by installer)"
 #define StartupEnd "-- END reaper-faderport-driver"
@@ -79,8 +79,8 @@ en.ReaperRunning=REAPER is running. Please close REAPER and click Retry.
 de.ReaperRunning=REAPER läuft. Bitte REAPER schließen und auf Wiederholen klicken.
 en.NoReaperIni=The selected folder doesn't contain reaper.ini, so it doesn't look like a REAPER resource path.%n%nInstall anyway?
 de.NoReaperIni=Der gewählte Ordner enthält keine reaper.ini und sieht nicht wie ein REAPER-Ressourcenpfad aus.%n%nTrotzdem installieren?
-en.BothInstalled=Both variants are installed. Only one can run at a time: the C++ extension is active by default. To use the Lua driver, disable the C++ driver with the action "Airmann FaderPort (C++): Enable/disable driver".
-de.BothInstalled=Beide Varianten sind installiert. Es kann immer nur eine laufen: Standardmäßig ist die C++-Extension aktiv. Für den Lua-Treiber die C++-Variante mit der Action "Airmann FaderPort (C++): Enable/disable driver" deaktivieren.
+en.BothInstalled=Both variants are installed. Only one can run at a time: the C++ extension is active by default. To use the Lua driver, disable the C++ driver with the action "4irmann FaderPort (C++): Enable/disable driver".
+de.BothInstalled=Beide Varianten sind installiert. Es kann immer nur eine laufen: Standardmäßig ist die C++-Extension aktiv. Für den Lua-Treiber die C++-Variante mit der Action "4irmann FaderPort (C++): Enable/disable driver" deaktivieren.
 en.StartReaper=Start REAPER
 de.StartReaper=REAPER starten
 
@@ -104,9 +104,15 @@ Source: "..\..\lua\*.lua"; DestDir: "{app}\Scripts\{#ScriptDir}"; Components: lu
 Source: "..\..\lua\faderport\*.lua"; DestDir: "{app}\Scripts\{#ScriptDir}\faderport"; Components: lua emulator; Flags: ignoreversion
 Source: "..\..\lua\README.md"; DestDir: "{app}\Scripts\{#ScriptDir}"; DestName: "README-lua.md"; Components: lua emulator; Flags: ignoreversion
 Source: "..\..\cpp\README.md"; DestDir: "{app}\Scripts\{#ScriptDir}"; DestName: "README-cpp.md"; Components: cpp; Flags: ignoreversion
-Source: "..\..\cpp\airmann_faderport_bindings.txt"; DestDir: "{app}\Scripts\{#ScriptDir}"; DestName: "airmann_faderport_bindings.txt.example"; Components: cpp; Flags: ignoreversion
+Source: "..\..\cpp\4irmann_faderport_bindings.txt"; DestDir: "{app}\Scripts\{#ScriptDir}"; DestName: "4irmann_faderport_bindings.txt.example"; Components: cpp; Flags: ignoreversion
 Source: "..\..\LICENSE.txt"; DestDir: "{app}\Scripts\{#ScriptDir}"; Flags: ignoreversion
 Source: "register_actions.lua"; DestDir: "{app}\Scripts\{#ScriptDir}"; Components: lua emulator; Flags: ignoreversion
+
+[InstallDelete]
+; files of versions before the rename "Airmann" -> "4irmann": two extensions would open the FaderPort
+Type: files; Name: "{app}\UserPlugins\reaper_airmann_faderport.dll"
+Type: files; Name: "{app}\Scripts\{#ScriptDir}\Airmann_FaderPort*.lua"
+Type: files; Name: "{app}\Scripts\{#ScriptDir}\airmann_faderport_bindings.txt.example"
 
 [Run]
 Filename: "{code:ReaperExe}"; Description: "{cm:StartReaper}"; Flags: postinstall nowait skipifsilent; Check: ReaperExeExists
@@ -166,16 +172,16 @@ begin
   n := n + 1;
   if WizardIsComponentSelected('lua') then
   begin
-    Lines[n] := 'Airmann_FaderPort.lua';
-    Lines[n + 1] := 'Airmann_FaderPort - Toggle emulator.lua';
-    Lines[n + 2] := 'Airmann_FaderPort - Reset.lua';
-    Lines[n + 3] := 'Airmann_FaderPort - Show FX parameters.lua';
-    Lines[n + 4] := 'Airmann_FaderPort - Toggle MIDI dump.lua';
+    Lines[n] := '4irmann_FaderPort.lua';
+    Lines[n + 1] := '4irmann_FaderPort - Toggle emulator.lua';
+    Lines[n + 2] := '4irmann_FaderPort - Reset.lua';
+    Lines[n + 3] := '4irmann_FaderPort - Show FX parameters.lua';
+    Lines[n + 4] := '4irmann_FaderPort - Toggle MIDI dump.lua';
     n := n + 5;
   end;
   if WizardIsComponentSelected('emulator') then
   begin
-    Lines[n] := 'Airmann_FaderPort - C++ emulator.lua';
+    Lines[n] := '4irmann_FaderPort - C++ emulator.lua';
     n := n + 1;
   end;
   if WizardIsTaskSelected('autostart') then
@@ -280,7 +286,7 @@ begin
   Result := '';
   // a previous installation may have had other components
   if not WizardIsComponentSelected('cpp') then
-    DeleteFile(ExpandConstant('{app}\UserPlugins\reaper_airmann_faderport.dll'));
+    DeleteFile(ExpandConstant('{app}\UserPlugins\reaper_4irmann_faderport.dll'));
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);

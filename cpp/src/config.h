@@ -17,7 +17,7 @@ namespace faderport {
 
 struct Config
 {
-  static constexpr const char *SECTION = "AirmannFaderPort";
+  static constexpr const char *SECTION = "4irmannFaderPort";
 
   // substring (case insensitive) of the MIDI device names
   std::string midi_in_name = "FaderPort";

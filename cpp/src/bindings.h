@@ -11,7 +11,7 @@
   Matching is case insensitive, the first matching line wins. See the Lua
   variant's bindings.lua for a detailed description.
 
-  The built-in defaults are replaced by <REAPER resource path>/airmann_faderport_bindings.txt
+  The built-in defaults are replaced by <REAPER resource path>/4irmann_faderport_bindings.txt
   if that file exists.
 
   Copyright 2010-2026 Matthias Ehrmann, Apache License 2.0

@@ -1,9 +1,9 @@
 --[[------------------------------------------------------------------------------------
 
-  Airmann's FaderPort Driver for REAPER
+  4irmann's FaderPort Driver for REAPER
 
   A REAPER ReaScript for the integration of the PreSonus FaderPort (classic) DAW
-  controller. Port of the Renoise tool "Airmann's FaderPort Driver".
+  controller. Port of the Renoise tool "4irmann's FaderPort Driver".
 
   Run this action to start the driver, run it again to stop it (toggle state).
   For auto start, add it to your __startup.lua or the SWS startup action.
@@ -39,8 +39,8 @@ config.load()
 
 -- never run two drivers on the same device
 if reaper.GetExtState(config.SECTION, "running_cpp") == "1" then
-  reaper.MB("The C++ FaderPort driver (reaper_airmann_faderport) is active.\n"
-    .. "Disable it with the action 'Airmann FaderPort (C++): Enable/disable driver' first.", "FaderPort", 0)
+  reaper.MB("The C++ FaderPort driver (reaper_4irmann_faderport) is active.\n"
+    .. "Disable it with the action '4irmann FaderPort (C++): Enable/disable driver' first.", "FaderPort", 0)
   return
 end
 

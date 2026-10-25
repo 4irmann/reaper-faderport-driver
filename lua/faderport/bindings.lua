@@ -10,7 +10,7 @@
           FX chain doesn't break a binding. First match wins.
   pairs : list of { fader, pan }. Each entry is either
             - a number : 1-based parameter index (as shown by the action
-                         "Airmann FaderPort - Show FX parameters")
+                         "4irmann FaderPort - Show FX parameters")
             - a string : case insensitive prefix of the parameter name
             - 0        : nothing is bound
           Unresolvable entries are treated as 0, a pair with nothing bound is skipped.

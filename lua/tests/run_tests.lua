@@ -467,11 +467,11 @@ end
 function T.cpp_bridge_roundtrip()
   setup()
   local sent, attached = {}, nil
-  reaper.AirmannFaderPort_EmuSend = function(a, b, c) sent[#sent + 1] = { a, b, c } end
-  reaper.AirmannFaderPort_EmuAttach = function(on) attached = on end
-  reaper.AirmannFaderPort_EmuReceive = function() return "a01501b00007b02033" end
-  reaper.AirmannFaderPort_GetStatus = function() return "t1   ^Volume" end
-  reaper.AirmannFaderPort_IsHardwareConnected = function() return false end
+  reaper.FaderPort4irmann_EmuSend = function(a, b, c) sent[#sent + 1] = { a, b, c } end
+  reaper.FaderPort4irmann_EmuAttach = function(on) attached = on end
+  reaper.FaderPort4irmann_EmuReceive = function() return "a01501b00007b02033" end
+  reaper.FaderPort4irmann_GetStatus = function() return "t1   ^Volume" end
+  reaper.FaderPort4irmann_IsHardwareConnected = function() return false end
 
   local Bridge = require("cpp_bridge")
   assert(Bridge.available())

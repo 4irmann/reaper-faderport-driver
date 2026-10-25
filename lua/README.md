@@ -1,7 +1,7 @@
-# Airmann's FaderPort Driver for REAPER
+# 4irmann's FaderPort Driver for REAPER
 
 A ReaScript (Lua) driver for the **PreSonus FaderPort (classic, 2010)** DAW controller.
-Port of the Renoise tool *Airmann's FaderPort Driver* (v1.1).
+Port of the Renoise tool *4irmann's FaderPort Driver* (v1.1).
 
 - Pure Lua: Windows, macOS, and Linux, nothing to compile
 - Motor fader and pan encoder with ballistics and anti-suck handling, shift+pan for fine trim
@@ -17,12 +17,12 @@ Requires REAPER 6.x or later. Development and testing use REAPER 7.
 1. Copy this folder to your REAPER resource path under `Scripts/` (Options → Show REAPER resource path).
    For example: `%APPDATA%\REAPER\Scripts\Reaper-Faderport\`.
 2. Actions → Show action list → *New action… → Load ReaScript…* and load these files:
-   - `Airmann_FaderPort.lua`: starts and stops the driver (toggle action, toolbar friendly)
-   - `Airmann_FaderPort - Toggle emulator.lua`
-   - `Airmann_FaderPort - Reset.lua`
-   - `Airmann_FaderPort - Show FX parameters.lua`
-   - `Airmann_FaderPort - Toggle MIDI dump.lua`
-   - `Airmann_FaderPort - C++ emulator.lua`: emulator window for the [C++ variant](../cpp/README.md)
+   - `4irmann_FaderPort.lua`: starts and stops the driver (toggle action, toolbar friendly)
+   - `4irmann_FaderPort - Toggle emulator.lua`
+   - `4irmann_FaderPort - Reset.lua`
+   - `4irmann_FaderPort - Show FX parameters.lua`
+   - `4irmann_FaderPort - Toggle MIDI dump.lua`
+   - `4irmann_FaderPort - C++ emulator.lua`: emulator window for the [C++ variant](../cpp/README.md)
      (only needed if you use it)
 3. Set up MIDI under Preferences → Audio → MIDI Inputs / MIDI Outputs:
    - **Enable** the FaderPort input and output.
@@ -34,7 +34,7 @@ Requires REAPER 6.x or later. Development and testing use REAPER 7.
 
 ### Auto start
 
-Copy the command ID of `Airmann_FaderPort.lua` from the action list (right click → *Copy selected
+Copy the command ID of `4irmann_FaderPort.lua` from the action list (right click → *Copy selected
 action command ID*) and add this line to `Scripts/__startup.lua`:
 
 ```lua

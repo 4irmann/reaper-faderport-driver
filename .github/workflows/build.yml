@@ -39,17 +39,17 @@ jobs:
           $version = if ($env:GITHUB_REF_TYPE -eq 'tag') { $env:GITHUB_REF_NAME.TrimStart('v') } else { '2.0.0-dev' }
           $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
           if (-not (Test-Path $iscc)) { choco install innosetup -y --no-progress }
-          $dll = Resolve-Path cpp/build/Release/reaper_airmann_faderport.dll
+          $dll = Resolve-Path cpp/build/Release/reaper_4irmann_faderport.dll
           & $iscc "/DAppVersion=$version" "/DDllPath=$dll" installer/windows/reaper-faderport-driver.iss
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - uses: actions/upload-artifact@v4
         with:
-          name: reaper_airmann_faderport-${{ matrix.os }}
+          name: reaper_4irmann_faderport-${{ matrix.os }}
           path: |
-            cpp/build/**/reaper_airmann_faderport.dll
-            cpp/build/**/reaper_airmann_faderport.dylib
-            cpp/build/**/reaper_airmann_faderport.so
+            cpp/build/**/reaper_4irmann_faderport.dll
+            cpp/build/**/reaper_4irmann_faderport.dylib
+            cpp/build/**/reaper_4irmann_faderport.so
             dist/*.exe
 
   release:
@@ -67,8 +67,8 @@ jobs:
         run: |
           mkdir release
           # artifact folder layout depends on the files found per platform
-          find artifacts -type f \( -name '*-setup.exe' -o -name 'reaper_airmann_faderport.dll' \
-            -o -name 'reaper_airmann_faderport.dylib' -o -name 'reaper_airmann_faderport.so' \) \
+          find artifacts -type f \( -name '*-setup.exe' -o -name 'reaper_4irmann_faderport.dll' \
+            -o -name 'reaper_4irmann_faderport.dylib' -o -name 'reaper_4irmann_faderport.so' \) \
             -exec cp {} release/ \;
           (cd lua && zip -r ../release/reaper-faderport-driver-lua-${GITHUB_REF_NAME}.zip . -x 'tests/*')
           ls -la release
