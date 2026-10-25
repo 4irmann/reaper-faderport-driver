@@ -138,21 +138,21 @@ int register_action(const char *id, const char *name)
 
 //------------------------------------------------------------- emulator bridge
 
-void FaderPort4irmann_EmuSend(int status, int data1, int data2)
+void FaderPort_4irmann_EmuSend(int status, int data1, int data2)
 {
   if (g_driver && g_surface_instance->enabled())
     g_driver->midi_callback({static_cast<uint8_t>(status), static_cast<uint8_t>(data1),
                              static_cast<uint8_t>(data2)}, time_precise());
 }
 
-const char *FaderPort4irmann_EmuReceive()
+const char *FaderPort_4irmann_EmuReceive()
 {
   g_emu_out.swap(g_emu_queue);
   g_emu_queue.clear();
   return g_emu_out.c_str();
 }
 
-void FaderPort4irmann_EmuAttach(bool attach)
+void FaderPort_4irmann_EmuAttach(bool attach)
 {
   if (attach && !g_emu_sink)
   {
@@ -174,20 +174,20 @@ void FaderPort4irmann_EmuAttach(bool attach)
     g_driver->invalidate(); // resend lights and fader position
 }
 
-const char *FaderPort4irmann_GetStatus()
+const char *FaderPort_4irmann_GetStatus()
 {
   g_status_out = g_surface_instance->enabled() ? g_driver->status() : "C++ driver disabled";
   return g_status_out.c_str();
 }
 
-bool FaderPort4irmann_IsHardwareConnected()
+bool FaderPort_4irmann_IsHardwareConnected()
 {
   return g_surface_instance->enabled() && g_driver->hardware_connected();
 }
 
 void *EmuSend_vararg(void **args, int)
 {
-  FaderPort4irmann_EmuSend(static_cast<int>(reinterpret_cast<INT_PTR>(args[0])),
+  FaderPort_4irmann_EmuSend(static_cast<int>(reinterpret_cast<INT_PTR>(args[0])),
                            static_cast<int>(reinterpret_cast<INT_PTR>(args[1])),
                            static_cast<int>(reinterpret_cast<INT_PTR>(args[2])));
   return nullptr;
@@ -195,23 +195,23 @@ void *EmuSend_vararg(void **args, int)
 
 void *EmuReceive_vararg(void **, int)
 {
-  return const_cast<char *>(FaderPort4irmann_EmuReceive());
+  return const_cast<char *>(FaderPort_4irmann_EmuReceive());
 }
 
 void *EmuAttach_vararg(void **args, int)
 {
-  FaderPort4irmann_EmuAttach(reinterpret_cast<INT_PTR>(args[0]) != 0);
+  FaderPort_4irmann_EmuAttach(reinterpret_cast<INT_PTR>(args[0]) != 0);
   return nullptr;
 }
 
 void *GetStatus_vararg(void **, int)
 {
-  return const_cast<char *>(FaderPort4irmann_GetStatus());
+  return const_cast<char *>(FaderPort_4irmann_GetStatus());
 }
 
 void *IsHardwareConnected_vararg(void **, int)
 {
-  return reinterpret_cast<void *>(static_cast<INT_PTR>(FaderPort4irmann_IsHardwareConnected()));
+  return reinterpret_cast<void *>(static_cast<INT_PTR>(FaderPort_4irmann_IsHardwareConnected()));
 }
 
 #define REGISTER_API(name, def)                                                        \
@@ -220,23 +220,23 @@ void *IsHardwareConnected_vararg(void **, int)
   g_rec->Register("APIvararg_" #name, reinterpret_cast<void *>(&name##_vararg_impl))
 
 // vararg names expected by REGISTER_API
-#define FaderPort4irmann_EmuSend_vararg_impl EmuSend_vararg
-#define FaderPort4irmann_EmuReceive_vararg_impl EmuReceive_vararg
-#define FaderPort4irmann_EmuAttach_vararg_impl EmuAttach_vararg
-#define FaderPort4irmann_GetStatus_vararg_impl GetStatus_vararg
-#define FaderPort4irmann_IsHardwareConnected_vararg_impl IsHardwareConnected_vararg
+#define FaderPort_4irmann_EmuSend_vararg_impl EmuSend_vararg
+#define FaderPort_4irmann_EmuReceive_vararg_impl EmuReceive_vararg
+#define FaderPort_4irmann_EmuAttach_vararg_impl EmuAttach_vararg
+#define FaderPort_4irmann_GetStatus_vararg_impl GetStatus_vararg
+#define FaderPort_4irmann_IsHardwareConnected_vararg_impl IsHardwareConnected_vararg
 
 void register_api()
 {
-  REGISTER_API(FaderPort4irmann_EmuSend,
+  REGISTER_API(FaderPort_4irmann_EmuSend,
                "void\0int,int,int\0status,data1,data2\0FaderPort emulator: send a FaderPort MIDI message to the C++ driver.");
-  REGISTER_API(FaderPort4irmann_EmuReceive,
+  REGISTER_API(FaderPort_4irmann_EmuReceive,
                "const char*\0\0\0FaderPort emulator: messages the C++ driver sent since the last call, 6 hex chars each.");
-  REGISTER_API(FaderPort4irmann_EmuAttach,
+  REGISTER_API(FaderPort_4irmann_EmuAttach,
                "void\0bool\0attach\0FaderPort emulator: start/stop receiving messages of the C++ driver.");
-  REGISTER_API(FaderPort4irmann_GetStatus,
+  REGISTER_API(FaderPort_4irmann_GetStatus,
                "const char*\0\0\0FaderPort: status line of the C++ driver.");
-  REGISTER_API(FaderPort4irmann_IsHardwareConnected,
+  REGISTER_API(FaderPort_4irmann_IsHardwareConnected,
                "bool\0\0\0FaderPort: true if the C++ driver is connected to the hardware.");
 }
 

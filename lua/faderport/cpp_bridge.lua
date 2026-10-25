@@ -14,24 +14,24 @@ local Bridge = {}
 Bridge.__index = Bridge
 
 function Bridge.available()
-  return reaper.FaderPort4irmann_EmuSend ~= nil
+  return reaper.FaderPort_4irmann_EmuSend ~= nil
 end
 
 function Bridge.new()
   local self = setmetatable({}, Bridge)
   self.sinks = {}
   self.status = ""
-  self.midi = { is_open = function() return reaper.FaderPort4irmann_IsHardwareConnected() end }
+  self.midi = { is_open = function() return reaper.FaderPort_4irmann_IsHardwareConnected() end }
   return self
 end
 
 function Bridge:midi_callback(msg)
-  reaper.FaderPort4irmann_EmuSend(msg[1], msg[2], msg[3])
+  reaper.FaderPort_4irmann_EmuSend(msg[1], msg[2], msg[3])
 end
 
 function Bridge:add_sink(fn)
   self.sinks[#self.sinks + 1] = fn
-  reaper.FaderPort4irmann_EmuAttach(true)
+  reaper.FaderPort_4irmann_EmuAttach(true)
 end
 
 function Bridge:remove_sink(fn)
@@ -42,24 +42,24 @@ function Bridge:remove_sink(fn)
     end
   end
   if #self.sinks == 0 then
-    reaper.FaderPort4irmann_EmuAttach(false)
+    reaper.FaderPort_4irmann_EmuAttach(false)
   end
 end
 
 function Bridge:invalidate()
-  reaper.FaderPort4irmann_EmuAttach(true) -- attach resends lights and fader position
+  reaper.FaderPort_4irmann_EmuAttach(true) -- attach resends lights and fader position
 end
 
 -- fetch messages the C++ driver sent and dispatch them to the sinks
 function Bridge:run()
-  local queue = reaper.FaderPort4irmann_EmuReceive()
+  local queue = reaper.FaderPort_4irmann_EmuReceive()
   for hex in queue:gmatch("%x%x%x%x%x%x") do
     local msg = { tonumber(hex:sub(1, 2), 16), tonumber(hex:sub(3, 4), 16), tonumber(hex:sub(5, 6), 16) }
     for _, sink in ipairs(self.sinks) do
       sink(msg)
     end
   end
-  self.status = reaper.FaderPort4irmann_GetStatus()
+  self.status = reaper.FaderPort_4irmann_GetStatus()
 end
 
 return Bridge
