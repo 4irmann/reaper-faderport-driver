@@ -1,4 +1,4 @@
-; Airmann's FaderPort Driver for REAPER - Windows installer (Inno Setup 6)
+﻿; Airmann's FaderPort Driver for REAPER - Windows installer (Inno Setup 6)
 ;
 ; Build (after building the C++ extension, DllPath absolute or relative to this file):
 ;   iscc /DAppVersion=2.0.0 installer\windows\reaper-faderport-driver.iss
