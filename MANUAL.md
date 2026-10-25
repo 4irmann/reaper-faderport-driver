@@ -182,17 +182,9 @@ has a different name, see [Preferences](#preferences) (`midi_in_name`, `midi_out
 
 ## Control overview
 
-```
-            [Pan]          [Mute] [Solo] [Rec]
-   |
-   |   [<]  [Bank]  [>]  [Output]           Channel select
-   |   [Read] [Write] [Touch] [Off]         Fader mode
- Fader [Mix]  [Proj]  [Trns]  [Undo]        Window view
-   |   [Shift] [Punch] [User] [Loop]
-   |   [Rewind] [Fast Fwd] [Stop] [Play] [Record]   Transport
-```
+<p align="center"><img src="docs/faderport-layout.svg" alt="FaderPort layout: fader on the left; pan knob, Mute, Solo, Rec; channel select ◀ Bank ▶ Output; fader mode Read Write Touch Off; window view Mix Proj Trns Undo; transport Shift Punch User Loop, Rewind Fast Fwd Stop Play Record" width="600"></p>
 
-The button labels are those of the hardware. Their function in REAPER is described below.
+The button labels are those of the hardware (schematic drawing, not to scale). Their function in REAPER is described below.
 
 ### Transport
 

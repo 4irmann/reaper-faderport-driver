@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="500" viewBox="0 0 600 500" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <title>PreSonus FaderPort (classic) control layout</title>
+  <style>
+    .body { fill: #c4c6c9; }
+    .panel { fill: #2b2f3a; }
+    .btn rect { fill: #f4f4f4; stroke: #8a8d92; stroke-width: 1; }
+    .btn text { font-size: 14px; font-weight: 600; fill: #2b2f3a; text-anchor: middle; dominant-baseline: central; }
+    .btn.red text { fill: #c62828; }
+    .group { font-size: 12px; fill: #b8bcc6; text-anchor: start; letter-spacing: 0.5px; }
+    .label { font-size: 12px; fill: #b8bcc6; text-anchor: middle; }
+  </style>
+
+  <!-- housing and panel -->
+  <rect class="body" x="0" y="0" width="600" height="500" rx="22"/>
+  <rect class="panel" x="16" y="16" width="568" height="468" rx="12"/>
+
+  <!-- fader -->
+  <rect x="56" y="40" width="10" height="420" rx="5" fill="#15171d"/>
+  <g fill="#6f7480">
+    <rect x="40" y="60" width="8" height="2"/><rect x="40" y="120" width="8" height="2"/>
+    <rect x="40" y="180" width="8" height="2"/><rect x="40" y="240" width="8" height="2"/>
+    <rect x="40" y="300" width="8" height="2"/><rect x="40" y="360" width="8" height="2"/>
+    <rect x="40" y="420" width="8" height="2"/>
+  </g>
+  <rect x="36" y="300" width="50" height="34" rx="5" fill="#d9dadc" stroke="#8a8d92"/>
+  <line x1="38" y1="317" x2="84" y2="317" stroke="#2b2f3a" stroke-width="2"/>
+  <text class="label" x="61" y="476">Fader</text>
+
+  <!-- pan knob -->
+  <circle cx="192" cy="58" r="22" fill="#2f4fa3" stroke="#1b2f66" stroke-width="2"/>
+  <line x1="192" y1="58" x2="192" y2="38" stroke="#dfe6ff" stroke-width="3" stroke-linecap="round"/>
+  <text class="label" x="192" y="96">Pan</text>
+
+  <!-- 4-button rows: x = 150 + i*104, button 88 x 34 -->
+  <g class="btn"><rect x="254" y="41" width="88" height="34" rx="5"/><text x="298" y="58">Mute</text></g>
+  <g class="btn"><rect x="358" y="41" width="88" height="34" rx="5"/><text x="402" y="58">Solo</text></g>
+  <g class="btn red"><rect x="462" y="41" width="88" height="34" rx="5"/><text x="506" y="58">Rec</text></g>
+
+  <text class="group" x="150" y="122">CHANNEL SELECT</text>
+  <g class="btn"><rect x="150" y="130" width="88" height="34" rx="5"/><text x="194" y="147">◀</text></g>
+  <g class="btn"><rect x="254" y="130" width="88" height="34" rx="5"/><text x="298" y="147">Bank</text></g>
+  <g class="btn"><rect x="358" y="130" width="88" height="34" rx="5"/><text x="402" y="147">▶</text></g>
+  <g class="btn"><rect x="462" y="130" width="88" height="34" rx="5"/><text x="506" y="147">Output</text></g>
+
+  <text class="group" x="150" y="192">FADER MODE</text>
+  <g class="btn"><rect x="150" y="200" width="88" height="34" rx="5"/><text x="194" y="217">Read</text></g>
+  <g class="btn"><rect x="254" y="200" width="88" height="34" rx="5"/><text x="298" y="217">Write</text></g>
+  <g class="btn"><rect x="358" y="200" width="88" height="34" rx="5"/><text x="402" y="217">Touch</text></g>
+  <g class="btn"><rect x="462" y="200" width="88" height="34" rx="5"/><text x="506" y="217">Off</text></g>
+
+  <text class="group" x="150" y="262">WINDOW VIEW</text>
+  <g class="btn"><rect x="150" y="270" width="88" height="34" rx="5"/><text x="194" y="287">Mix</text></g>
+  <g class="btn"><rect x="254" y="270" width="88" height="34" rx="5"/><text x="298" y="287">Proj</text></g>
+  <g class="btn"><rect x="358" y="270" width="88" height="34" rx="5"/><text x="402" y="287">Trns</text></g>
+  <g class="btn"><rect x="462" y="270" width="88" height="34" rx="5"/><text x="506" y="287">Undo</text></g>
+
+  <text class="group" x="150" y="332">TRANSPORT</text>
+  <g class="btn"><rect x="150" y="340" width="88" height="34" rx="5"/><text x="194" y="357">Shift</text></g>
+  <g class="btn"><rect x="254" y="340" width="88" height="34" rx="5"/><text x="298" y="357">Punch</text></g>
+  <g class="btn"><rect x="358" y="340" width="88" height="34" rx="5"/><text x="402" y="357">User</text></g>
+  <g class="btn"><rect x="462" y="340" width="88" height="34" rx="5"/><text x="506" y="357">Loop</text></g>
+
+  <!-- 5-button row: x = 150 + i*81, button 76 x 40 -->
+  <g class="btn"><rect x="150" y="400" width="76" height="40" rx="5"/><text x="188" y="420">◀◀</text></g>
+  <g class="btn"><rect x="231" y="400" width="76" height="40" rx="5"/><text x="269" y="420">▶▶</text></g>
+  <g class="btn"><rect x="312" y="400" width="76" height="40" rx="5"/><text x="350" y="420">■</text></g>
+  <g class="btn"><rect x="393" y="400" width="76" height="40" rx="5"/><text x="431" y="420">▶</text></g>
+  <g class="btn"><rect x="474" y="400" width="76" height="40" rx="5"/><circle cx="512" cy="420" r="9" fill="#d32f2f"/></g>
+  <text class="label" x="188" y="458">Rewind</text>
+  <text class="label" x="269" y="458">Fast Fwd</text>
+  <text class="label" x="350" y="458">Stop</text>
+  <text class="label" x="431" y="458">Play</text>
+  <text class="label" x="512" y="458">Record</text>
+</svg>

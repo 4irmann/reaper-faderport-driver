@@ -108,6 +108,7 @@ Source: "..\..\cpp\4irmann_faderport_bindings.txt"; DestDir: "{app}\Scripts\{#Sc
 Source: "..\..\LICENSE"; DestDir: "{app}\Scripts\{#ScriptDir}"; DestName: "LICENSE.txt"; Flags: ignoreversion
 Source: "..\..\NOTICE"; DestDir: "{app}\Scripts\{#ScriptDir}"; DestName: "NOTICE.txt"; Flags: ignoreversion
 Source: "..\..\MANUAL.md"; DestDir: "{app}\Scripts\{#ScriptDir}"; Flags: ignoreversion
+Source: "..\..\docs\*"; DestDir: "{app}\Scripts\{#ScriptDir}\docs"; Flags: ignoreversion
 Source: "register_actions.lua"; DestDir: "{app}\Scripts\{#ScriptDir}"; Components: lua emulator; Flags: ignoreversion
 
 [InstallDelete]
