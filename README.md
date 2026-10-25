@@ -29,8 +29,17 @@ REAPER's ExtState section `4irmannFaderPort`.
 Uninstall from Windows Settings → Apps. This removes the files, the startup entry, and the registered actions
 (`reaper-kb.ini` is backed up to `reaper-kb.ini.faderport-backup`).
 
-macOS/Linux: copy the `.dylib`/`.so` from the release to `UserPlugins`, or load the Lua scripts
-manually; see the READMEs of the variants.
+## Installation on macOS and Linux
+
+The release contains a universal `.dylib` (Apple Silicon and Intel, macOS 10.15 or later), a `.so`
+(x86_64, glibc 2.35 or later) and the Lua scripts as a ZIP. Step-by-step guides with paths,
+the macOS quarantine note and building from source are in the manual:
+[macOS](MANUAL.md#macos) · [Linux](MANUAL.md#linux).
+
+So far, macOS and Linux have only been built and unit-tested, not tested with REAPER and hardware.
+Feedback is welcome.
+
+## Releases
 
 To create a release, push a tag `v<version>`, for example `git tag v2.0.0 && git push origin v2.0.0`. CI then
 builds the installer and all binaries and attaches them to a GitHub release.

@@ -111,12 +111,19 @@ recommended.** Only one variant can run at a time; they lock each other out.
 ### Requirements
 
 - REAPER 6.x or later (developed and tested with REAPER 7)
-- the PreSonus FaderPort driver for your OS. On Windows the FaderPort is a class-compliant USB MIDI device.
+- a FaderPort MIDI driver: the FaderPort is a class-compliant USB MIDI device. Windows and macOS
+  usually need no extra driver; PreSonus offers one for Windows. Linux uses the standard ALSA USB MIDI driver.
 - optional, but strongly recommended: the FaderPort's **additional power supply**. Without it the
   fader motor and the touch detection don't work; see [Additional power supply](#additional-power-supply).
 
-Windows (64 bit) is the main platform. The C++ extension is also built for macOS and Linux,
-but it has not been tested there yet.
+| Platform | C++ extension | Lua driver | Tested with REAPER and hardware |
+|---|---|---|---|
+| Windows 10/11, 64 bit | `reaper_4irmann_faderport.dll` and installer | yes | **yes** (main platform) |
+| macOS 10.15 or later, Apple Silicon and Intel | `reaper_4irmann_faderport.dylib` (universal) | yes | **no**, build and unit tests only |
+| Linux x86_64, glibc 2.35 or later | `reaper_4irmann_faderport.so` | yes | **no**, build and unit tests only |
+
+Feedback from macOS and Linux users is very welcome, either as a
+[GitHub issue](https://github.com/4irmann/reaper-faderport-driver/issues) or a comment.
 
 ### Windows installer
 
@@ -141,8 +148,9 @@ removes the files, the auto start entry and the registered actions. A backup of
 **C++ extension:** copy the extension file to `<resource path>/UserPlugins/` and restart REAPER.
 (Find the resource path in REAPER: Options → Show REAPER resource path in explorer/finder.)
 
-**Lua driver:** copy the `lua` folder to `<resource path>/Scripts/reaper-faderport-driver/`. Then
-load the scripts via Actions → Show action list → New action → Load ReaScript:
+**Lua driver:** unpack `reaper-faderport-driver-lua-<version>.zip` from the release to
+`<resource path>/Scripts/reaper-faderport-driver/`. Then load the scripts via Actions → Show
+action list → New action → Load ReaScript:
 
 - `4irmann_FaderPort.lua`: starts/stops the driver
 - `4irmann_FaderPort - Toggle emulator.lua`
@@ -156,6 +164,87 @@ action list (right-click → Copy selected action command ID):
 
 ```lua
 reaper.Main_OnCommand(reaper.NamedCommandLookup("_RS<command id>"), 0)
+```
+
+### macOS
+
+The resource path is `~/Library/Application Support/REAPER/`. In Finder use Go → Go to Folder…, or
+in REAPER Options → Show REAPER resource path in explorer/finder.
+
+**C++ extension:**
+
+1. Download `reaper_4irmann_faderport.dylib` from the
+   [releases page](https://github.com/4irmann/reaper-faderport-driver/releases). It runs on Apple
+   Silicon and on Intel Macs.
+2. Quit REAPER and copy the file to `~/Library/Application Support/REAPER/UserPlugins/`. Create the
+   folder if it doesn't exist.
+3. The file is not signed, so macOS marks downloaded files as "quarantined" and may block loading.
+   Remove the quarantine flag in Terminal:
+
+   ```sh
+   xattr -d com.apple.quarantine ~/Library/Application\ Support/REAPER/UserPlugins/reaper_4irmann_faderport.dylib
+   ```
+
+4. Start REAPER. In Preferences → Plug-ins → Extensions (REAPER 7) the extension should show as
+   "Loaded".
+5. Set up MIDI (device **disabled**), see [MIDI setup](#midi-setup).
+
+**Lua driver / emulator:** unpack the Lua ZIP to
+`~/Library/Application Support/REAPER/Scripts/reaper-faderport-driver/` and load the scripts as
+described in [Manual installation](#manual-installation). Lua scripts are plain text and need no
+quarantine handling.
+
+**Building it yourself:** install the Xcode command line tools (`xcode-select --install`) and CMake
+(for example `brew install cmake`). Then:
+
+```sh
+git clone https://github.com/4irmann/reaper-faderport-driver.git
+cd reaper-faderport-driver/cpp
+cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"
+cmake --build build
+ctest --test-dir build --output-on-failure
+cp build/reaper_4irmann_faderport.dylib ~/Library/Application\ Support/REAPER/UserPlugins/
+```
+
+A self-built file is not quarantined.
+
+### Linux
+
+The resource path is `~/.config/REAPER/` (for a portable installation, the REAPER folder itself).
+
+**C++ extension:**
+
+1. Download `reaper_4irmann_faderport.so` from the
+   [releases page](https://github.com/4irmann/reaper-faderport-driver/releases). It is built for
+   x86_64 and needs glibc 2.35 or later, for example Ubuntu 22.04, Debian 12, Fedora 36 or later.
+   Check your version with `ldd --version`.
+2. Quit REAPER and copy the file to `~/.config/REAPER/UserPlugins/`:
+
+   ```sh
+   mkdir -p ~/.config/REAPER/UserPlugins
+   cp reaper_4irmann_faderport.so ~/.config/REAPER/UserPlugins/
+   ```
+
+3. Start REAPER and set up MIDI (device **disabled**), see [MIDI setup](#midi-setup).
+
+**MIDI access:** REAPER uses ALSA. Check that the FaderPort shows up, for example with `amidi -l`.
+If it doesn't, your user may need to be a member of the `audio` group. With ALSA the device is often
+called "FaderPort MIDI 1" or similar; the driver looks for "FaderPort" in the name, so that works without
+changes.
+
+**Lua driver / emulator:** unpack the Lua ZIP to `~/.config/REAPER/Scripts/reaper-faderport-driver/`
+and load the scripts as described in [Manual installation](#manual-installation).
+
+**Building it yourself** (for older distributions, or ARM such as a Raspberry Pi):
+
+```sh
+sudo apt install build-essential cmake git      # Debian/Ubuntu; for Fedora: sudo dnf install gcc-c++ cmake git
+git clone https://github.com/4irmann/reaper-faderport-driver.git
+cd reaper-faderport-driver/cpp
+cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+ctest --test-dir build --output-on-failure
+cp build/reaper_4irmann_faderport.so ~/.config/REAPER/UserPlugins/
 ```
 
 ### MIDI setup
