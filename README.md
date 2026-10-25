@@ -42,4 +42,4 @@ cmake -S cpp -B cpp/build && cmake --build cpp/build && ctest --test-dir cpp/bui
 
 ## License
 
-Apache License 2.0, see [LICENSE.txt](LICENSE.txt).
+Apache License 2.0, see [LICENSE](LICENSE) and [NOTICE](NOTICE).

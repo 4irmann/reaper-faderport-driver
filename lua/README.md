@@ -101,4 +101,4 @@ The tests use a mocked REAPER API (`tests/mock_reaper.lua`) and need a plain Lua
 
 ## License
 
-Apache License 2.0, see `LICENSE.txt`.
+Apache License 2.0, see `LICENSE` and `NOTICE`.

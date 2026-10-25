@@ -38,7 +38,7 @@ ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 OutputDir=..\..\dist
 OutputBaseFilename=reaper-faderport-driver-{#AppVersion}-setup
-LicenseFile=..\..\LICENSE.txt
+LicenseFile=..\..\LICENSE
 UninstallFilesDir={app}\Data\reaper-faderport-driver
 UninstallDisplayName={#AppName}
 WizardStyle=modern
@@ -105,7 +105,8 @@ Source: "..\..\lua\faderport\*.lua"; DestDir: "{app}\Scripts\{#ScriptDir}\faderp
 Source: "..\..\lua\README.md"; DestDir: "{app}\Scripts\{#ScriptDir}"; DestName: "README-lua.md"; Components: lua emulator; Flags: ignoreversion
 Source: "..\..\cpp\README.md"; DestDir: "{app}\Scripts\{#ScriptDir}"; DestName: "README-cpp.md"; Components: cpp; Flags: ignoreversion
 Source: "..\..\cpp\4irmann_faderport_bindings.txt"; DestDir: "{app}\Scripts\{#ScriptDir}"; DestName: "4irmann_faderport_bindings.txt.example"; Components: cpp; Flags: ignoreversion
-Source: "..\..\LICENSE.txt"; DestDir: "{app}\Scripts\{#ScriptDir}"; Flags: ignoreversion
+Source: "..\..\LICENSE"; DestDir: "{app}\Scripts\{#ScriptDir}"; DestName: "LICENSE.txt"; Flags: ignoreversion
+Source: "..\..\NOTICE"; DestDir: "{app}\Scripts\{#ScriptDir}"; DestName: "NOTICE.txt"; Flags: ignoreversion
 Source: "register_actions.lua"; DestDir: "{app}\Scripts\{#ScriptDir}"; Components: lua emulator; Flags: ignoreversion
 
 [InstallDelete]
