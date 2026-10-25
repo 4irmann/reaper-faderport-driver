@@ -77,6 +77,10 @@ endif()
 if(WIN32)
   target_sources(reaper_4irmann_faderport PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
 endif()
+if(UNIX AND NOT APPLE)
+  # static C++ runtime: the .so doesn't depend on the libstdc++ version of the target distribution
+  target_link_options(reaper_4irmann_faderport PRIVATE -static-libstdc++ -static-libgcc)
+endif()
 if(MSVC)
   # static runtime: no VC++ redistributable needed on the target machine
   set_property(TARGET reaper_4irmann_faderport PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")

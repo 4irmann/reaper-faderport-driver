@@ -18,7 +18,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+        # ubuntu-22.04 instead of latest: the .so then only needs glibc >= 2.35
+        os: [windows-latest, macos-latest, ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -26,11 +27,32 @@ jobs:
         shell: bash
         run: |
           if [ "$GITHUB_REF_TYPE" = "tag" ]; then version="${GITHUB_REF_NAME#v}"; else version="2.0.0-dev"; fi
-          cmake -S cpp -B cpp/build -DCMAKE_BUILD_TYPE=Release -DFADERPORT_VERSION="$version"
+          extra=()
+          if [ "$RUNNER_OS" = "macOS" ]; then
+            # universal binary for Apple Silicon and Intel Macs
+            extra=(-DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15)
+          fi
+          cmake -S cpp -B cpp/build -DCMAKE_BUILD_TYPE=Release -DFADERPORT_VERSION="$version" "${extra[@]}"
       - name: Build
         run: cmake --build cpp/build --config Release
       - name: Test
         run: ctest --test-dir cpp/build -C Release --output-on-failure
+      - name: Check binary (macOS/Linux)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          lib=$(ls cpp/build/reaper_4irmann_faderport.{dylib,so} 2>/dev/null)
+          file "$lib"
+          if [ "$RUNNER_OS" = "macOS" ]; then
+            lipo -info "$lib"
+            lipo "$lib" -verify_arch arm64 x86_64
+          else
+            echo "required glibc versions:"
+            objdump -T "$lib" | grep -o 'GLIBC_[0-9.]*' | sort -uV | tail -3
+            echo "dynamic dependencies:"
+            ldd "$lib"
+            if ldd "$lib" | grep -q libstdc++; then echo "libstdc++ must be linked statically"; exit 1; fi
+          fi
 
       - name: Installer (Windows)
         if: runner.os == 'Windows'
