@@ -8,6 +8,8 @@ A driver for the **PreSonus FaderPort (classic)** in REAPER. It is a port of the
 | [lua/](lua/README.md) | ReaScript (Lua) | No build step and runs on every platform. Has the built-in emulator. |
 | [cpp/](cpp/README.md) | Native C++ extension | Native control surface with exact encoder ballistics, `GetTouchState` touch automation, and no MIDI preferences setup. Needs a build. |
 
+**Read the [manual](MANUAL.md)** for the button mapping, modes, automation, DSP bindings and preferences.
+
 Only one variant can run at a time; the two lock each other out. They share their settings through
 REAPER's ExtState section `4irmannFaderPort`.
 
