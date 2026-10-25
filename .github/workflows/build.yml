@@ -41,7 +41,11 @@ jobs:
         if: runner.os != 'Windows'
         shell: bash
         run: |
-          lib=$(ls cpp/build/reaper_4irmann_faderport.{dylib,so} 2>/dev/null)
+          lib=""
+          for f in cpp/build/reaper_4irmann_faderport.dylib cpp/build/reaper_4irmann_faderport.so; do
+            if [ -f "$f" ]; then lib="$f"; fi
+          done
+          if [ -z "$lib" ]; then echo "extension not found"; exit 1; fi
           file "$lib"
           if [ "$RUNNER_OS" = "macOS" ]; then
             lipo -info "$lib"
