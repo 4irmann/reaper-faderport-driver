@@ -26,7 +26,7 @@ jobs:
       - name: Configure
         shell: bash
         run: |
-          if [ "$GITHUB_REF_TYPE" = "tag" ]; then version="${GITHUB_REF_NAME#v}"; else version="2.0.0-dev"; fi
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then version="${GITHUB_REF_NAME#v}"; else version="2.0.1-dev"; fi
           extra=()
           if [ "$RUNNER_OS" = "macOS" ]; then
             # universal binary for Apple Silicon and Intel Macs
@@ -62,7 +62,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          $version = if ($env:GITHUB_REF_TYPE -eq 'tag') { $env:GITHUB_REF_NAME.TrimStart('v') } else { '2.0.0-dev' }
+          $version = if ($env:GITHUB_REF_TYPE -eq 'tag') { $env:GITHUB_REF_NAME.TrimStart('v') } else { '2.0.1-dev' }
           $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
           if (-not (Test-Path $iscc)) { choco install innosetup -y --no-progress }
           $dll = Resolve-Path cpp/build/Release/reaper_4irmann_faderport.dll

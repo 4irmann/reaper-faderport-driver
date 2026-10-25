@@ -1,6 +1,6 @@
 # 4irmann's FaderPort Driver for REAPER: Manual
 
-Version 2.0.0. Copyright 2010-2026 Matthias Ehrmann (aka 4irmann), Apache License 2.0.
+Version 2.0.1. Copyright 2010-2026 Matthias Ehrmann (aka 4irmann), Apache License 2.0.
 
 Based on the manual of the Renoise driver v1.1.0, reviewed 2010 by Organic IO.
 
@@ -847,3 +847,8 @@ and without the power supply, and with the emulator.
   - two variants: Lua ReaScript and native C++ extension (Windows/macOS/Linux)
   - REAPER's native automation modes, track FX in DSP mode with name-based bindings and generic fallback
   - emulator as its own window, Windows installer
+- **v2.0.1** (2026): portable macOS/Linux builds and documentation
+  - macOS: universal binary (Apple Silicon and Intel), macOS 10.15 or later
+  - Linux: needs only glibc 2.34, C++ runtime linked statically
+  - installation guides for macOS and Linux; the Lua ZIP contains license and manual
+  - Windows DLL with version information (description in REAPER's extension list)
