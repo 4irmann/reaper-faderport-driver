@@ -120,7 +120,7 @@ recommended.** Only one variant can run at a time; they lock each other out.
 |---|---|---|---|
 | Windows 10/11, 64 bit | `reaper_4irmann_faderport.dll` and installer | yes | **yes** (main platform) |
 | macOS 10.15 or later, Apple Silicon and Intel | `reaper_4irmann_faderport.dylib` (universal) | yes | **no**, build and unit tests only |
-| Linux x86_64, glibc 2.35 or later | `reaper_4irmann_faderport.so` | yes | **no**, build and unit tests only |
+| Linux x86_64, glibc 2.34 or later | `reaper_4irmann_faderport.so` | yes | **no**, build and unit tests only |
 
 Feedback from macOS and Linux users is very welcome, either as a
 [GitHub issue](https://github.com/4irmann/reaper-faderport-driver/issues) or a comment.
@@ -216,7 +216,7 @@ The resource path is `~/.config/REAPER/` (for a portable installation, the REAPE
 
 1. Download `reaper_4irmann_faderport.so` from the
    [releases page](https://github.com/4irmann/reaper-faderport-driver/releases). It is built for
-   x86_64 and needs glibc 2.35 or later, for example Ubuntu 22.04, Debian 12, Fedora 36 or later.
+   x86_64 and needs glibc 2.34 or later, for example Ubuntu 22.04, Debian 12, Fedora 35, RHEL/Rocky/AlmaLinux 9 or later.
    Check your version with `ldd --version`.
 2. Quit REAPER and copy the file to `~/.config/REAPER/UserPlugins/`:
 

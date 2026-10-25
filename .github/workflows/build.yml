@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # ubuntu-22.04 instead of latest: the .so then only needs glibc >= 2.35
+        # ubuntu-22.04 instead of latest: the .so then only needs glibc >= 2.34 (verified with objdump in the check step)
         os: [windows-latest, macos-latest, ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     steps:

@@ -32,7 +32,7 @@ Uninstall from Windows Settings → Apps. This removes the files, the startup en
 ## Installation on macOS and Linux
 
 The release contains a universal `.dylib` (Apple Silicon and Intel, macOS 10.15 or later), a `.so`
-(x86_64, glibc 2.35 or later) and the Lua scripts as a ZIP. Step-by-step guides with paths,
+(x86_64, glibc 2.34 or later) and the Lua scripts as a ZIP. Step-by-step guides with paths,
 the macOS quarantine note and building from source are in the manual:
 [macOS](MANUAL.md#macos) · [Linux](MANUAL.md#linux).
 
