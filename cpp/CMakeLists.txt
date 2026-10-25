@@ -7,6 +7,20 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(FADERPORT_BUILD_TESTS "Build the unit tests" ON)
 
+# version shown in REAPER/Explorer, CI passes the release tag (e.g. 2.1.0 or 2.0.0-dev)
+set(FADERPORT_VERSION "${PROJECT_VERSION}" CACHE STRING "Version string of the extension")
+set(FADERPORT_VERSION_STRING "${FADERPORT_VERSION}")
+if(FADERPORT_VERSION MATCHES "^([0-9]+)\\.([0-9]+)\\.([0-9]+)")
+  set(PROJECT_VERSION_MAJOR ${CMAKE_MATCH_1})
+  set(PROJECT_VERSION_MINOR ${CMAKE_MATCH_2})
+  set(PROJECT_VERSION_PATCH ${CMAKE_MATCH_3})
+endif()
+
+if(WIN32)
+  enable_language(RC)
+  configure_file(src/version.rc.in ${CMAKE_CURRENT_BINARY_DIR}/version.rc @ONLY)
+endif()
+
 include(FetchContent)
 
 # REAPER SDK (header only, no CMakeLists.txt)
@@ -59,6 +73,9 @@ set_target_properties(reaper_airmann_faderport PROPERTIES
   CXX_VISIBILITY_PRESET hidden)
 if(APPLE)
   set_target_properties(reaper_airmann_faderport PROPERTIES SUFFIX ".dylib")
+endif()
+if(WIN32)
+  target_sources(reaper_airmann_faderport PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
 endif()
 if(MSVC)
   # static runtime: no VC++ redistributable needed on the target machine

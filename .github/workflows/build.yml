@@ -23,7 +23,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Configure
-        run: cmake -S cpp -B cpp/build -DCMAKE_BUILD_TYPE=Release
+        shell: bash
+        run: |
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then version="${GITHUB_REF_NAME#v}"; else version="2.0.0-dev"; fi
+          cmake -S cpp -B cpp/build -DCMAKE_BUILD_TYPE=Release -DFADERPORT_VERSION="$version"
       - name: Build
         run: cmake --build cpp/build --config Release
       - name: Test
