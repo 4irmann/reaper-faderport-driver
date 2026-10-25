@@ -2,6 +2,8 @@ name: build
 
 on:
   push:
+    branches: ["**"]
+    tags: ["v*"]
   pull_request:
 
 jobs:
@@ -26,6 +28,18 @@ jobs:
         run: cmake --build cpp/build --config Release
       - name: Test
         run: ctest --test-dir cpp/build -C Release --output-on-failure
+
+      - name: Installer (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $version = if ($env:GITHUB_REF_TYPE -eq 'tag') { $env:GITHUB_REF_NAME.TrimStart('v') } else { '2.0.0-dev' }
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) { choco install innosetup -y --no-progress }
+          $dll = Resolve-Path cpp/build/Release/reaper_airmann_faderport.dll
+          & $iscc "/DAppVersion=$version" "/DDllPath=$dll" installer/windows/reaper-faderport-driver.iss
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
       - uses: actions/upload-artifact@v4
         with:
           name: reaper_airmann_faderport-${{ matrix.os }}
@@ -33,3 +47,29 @@ jobs:
             cpp/build/**/reaper_airmann_faderport.dll
             cpp/build/**/reaper_airmann_faderport.dylib
             cpp/build/**/reaper_airmann_faderport.so
+            dist/*.exe
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [lua-tests, cpp]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Collect files
+        run: |
+          mkdir release
+          # artifact folder layout depends on the files found per platform
+          find artifacts -type f \( -name '*-setup.exe' -o -name 'reaper_airmann_faderport.dll' \
+            -o -name 'reaper_airmann_faderport.dylib' -o -name 'reaper_airmann_faderport.so' \) \
+            -exec cp {} release/ \;
+          (cd lua && zip -r ../release/reaper-faderport-driver-lua-${GITHUB_REF_NAME}.zip . -x 'tests/*')
+          ls -la release
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" release/* --title "$GITHUB_REF_NAME" --generate-notes
