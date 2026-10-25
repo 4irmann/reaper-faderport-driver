@@ -2,8 +2,8 @@
 
 A native REAPER extension (`reaper_4irmann_faderport.dll` / `.dylib` / `.so`) for the
 **PreSonus FaderPort (classic)**. It has the same features and the same button mapping as the
-[Lua variant](../lua/README.md). The two variants share their settings through REAPER's ExtState
-(section `4irmannFaderPort`). The [manual](../MANUAL.md) describes all functions in detail.
+[Lua variant](https://github.com/4irmann/reaper-faderport-driver/blob/main/lua/README.md). The two variants share their settings through REAPER's ExtState
+(section `4irmannFaderPort`). The [manual](https://github.com/4irmann/reaper-faderport-driver/blob/main/MANUAL.md) describes all functions in detail.
 
 ## Differences from the Lua variant
 
@@ -14,7 +14,7 @@ A native REAPER extension (`reaper_4irmann_faderport.dll` / `.dylib` / `.so`) fo
 | Touch/latch automation | Gestures via `SetTrackUIVolume(…, done)` | REAPER queries the surface via `GetTouchState()` |
 | Focused FX | Polls `GetFocusedFX2` | Callback `CSURF_EXT_SETFOCUSEDFX` |
 | Emulator | Built in | `lua/4irmann_FaderPort - C++ emulator.lua` (same window, connected through the ReaScript API) |
-| DSP bindings | `lua/faderport/bindings.lua` | Built-in defaults, or `<resource path>/4irmann_faderport_bindings.txt` (template: [4irmann_faderport_bindings.txt](4irmann_faderport_bindings.txt)) |
+| DSP bindings | `lua/faderport/bindings.lua` | Built-in defaults, or `<resource path>/4irmann_faderport_bindings.txt` (template: [4irmann_faderport_bindings.txt](https://github.com/4irmann/reaper-faderport-driver/blob/main/cpp/4irmann_faderport_bindings.txt)) |
 | Installation | No build step | Prebuilt binaries in the releases, or build per platform |
 
 **Resolution:** The FaderPort transmits the fader with 10 bits (1024 steps) in both directions. That
@@ -37,8 +37,12 @@ ctest --test-dir build -C Release --output-on-failure
 
 CMake downloads the REAPER SDK, and WDL on macOS/Linux, at pinned commits.
 
-The version shown in the DLL properties and in REAPER defaults to the project version. Set it with
-`-DFADERPORT_VERSION=2.0.1`; CI uses the release tag for this.
+**Windows only:** the DLL carries a version resource with description and version. The Windows file
+properties show it, and so does REAPER's extension list. Set the version with
+`-DFADERPORT_VERSION=2.0.1`; CI uses the release tag for this. Without the option, a new build folder
+uses the project version. `FADERPORT_VERSION` is a CMake cache variable, though: in an existing
+build folder the previous value stays until you pass a new one or delete `CMakeCache.txt`. On macOS and
+Linux the option has no effect.
 
 ## Installation
 
@@ -58,10 +62,13 @@ and `.so`. To build it yourself, see [Build](#build).
    - `4irmann FaderPort (C++): Reset`
    - `4irmann FaderPort (C++): Toggle MIDI dump`
    - `4irmann FaderPort (C++): Show FX parameters`
-4. Optional emulator: copy the `lua` folder (or the Lua ZIP from the release) to
-   `<REAPER resource path>/Scripts/reaper-faderport-driver/`, and load
-   `4irmann_FaderPort - C++ emulator.lua` from there as an action. The script needs the `faderport/`
-   subfolder next to it.
+4. Optional emulator (needs the extension from step 1): unpack the Lua ZIP from the release
+   (`reaper-faderport-driver-lua-<version>.zip`) to `<REAPER resource path>/Scripts/reaper-faderport-driver/`.
+   Then load **only** `4irmann_FaderPort - C++ emulator.lua` from there as an action. The script
+   needs the `faderport/` subfolder next to it.
+   The ZIP also contains the Lua driver (`4irmann_FaderPort.lua`). **Don't start it** together with the
+   C++ extension, because only one of the two drivers can run (see below).
+   Use the ZIP rather than the repository's `lua` folder: the ZIP leaves out the tests.
 
 The Lua and C++ drivers lock each other out. Only one of them can run at a time.
 

@@ -11,7 +11,7 @@ Port of the Renoise tool *4irmann's FaderPort Driver* (v1.1).
 - Emulator window: a virtual FaderPort, usable with or without the hardware
 
 Requires REAPER 6.x or later. Development and testing use REAPER 7.
-The [manual](../MANUAL.md) describes all functions in detail.
+The [manual](https://github.com/4irmann/reaper-faderport-driver/blob/main/MANUAL.md) describes all functions in detail.
 
 ## Installation
 
@@ -22,15 +22,16 @@ start and can also start the driver automatically. After that, only the MIDI set
 **Manual installation (all platforms):** the release contains the scripts as
 `reaper-faderport-driver-lua-<version>.zip`.
 
-1. Copy this folder to your REAPER resource path under `Scripts/` (Options → Show REAPER resource path).
-   For example: `%APPDATA%\REAPER\Scripts\reaper-faderport-driver\`.
+1. Unpack the ZIP into a folder under `Scripts/` in your REAPER resource path (Options → Show REAPER
+   resource path), for example `%APPDATA%\REAPER\Scripts\reaper-faderport-driver\`. If you use the
+   repository's `lua` folder instead, leave out `tests/`, so the test scripts don't end up in REAPER.
 2. Actions → Show action list → *New action… → Load ReaScript…* and load these files:
    - `4irmann_FaderPort.lua`: starts and stops the driver (toggle action, toolbar friendly)
    - `4irmann_FaderPort - Toggle emulator.lua`
    - `4irmann_FaderPort - Reset.lua`
    - `4irmann_FaderPort - Show FX parameters.lua`
    - `4irmann_FaderPort - Toggle MIDI dump.lua`
-   - `4irmann_FaderPort - C++ emulator.lua`: emulator window for the [C++ variant](../cpp/README.md)
+   - `4irmann_FaderPort - C++ emulator.lua`: emulator window for the [C++ variant](https://github.com/4irmann/reaper-faderport-driver/blob/main/cpp/README.md)
      (only needed if you use it)
 3. Set up MIDI under Preferences → Audio → MIDI Inputs / MIDI Outputs:
    - **Enable** the FaderPort input and output.
@@ -51,7 +52,7 @@ reaper.Main_OnCommand(reaper.NamedCommandLookup("_RS<your id>"), 0)
 
 ## Button mapping
 
-Quick reference. For details see the [manual](../MANUAL.md#control-overview).
+Quick reference. For details see the [manual](https://github.com/4irmann/reaper-faderport-driver/blob/main/MANUAL.md#control-overview).
 
 | Button | REAPER | Shift + button | Renoise driver had |
 |---|---|---|---|
@@ -85,7 +86,7 @@ REAPER's help/status line and in the emulator window.
 - `faderport/config.lua`: defaults (device name pattern, resolution, timeouts, …). Values in REAPER's
   ExtState section `4irmannFaderPort` override these defaults, for example the values you toggle with the
   helper actions (emulator, MIDI dump). The C++ variant shares this section; all keys are listed in the
-  [manual](../MANUAL.md#preferences).
+  [manual](https://github.com/4irmann/reaper-faderport-driver/blob/main/MANUAL.md#preferences).
 - `faderport/bindings.lua`: DSP bindings by FX name, with parameter index or name prefix.
   The *Show FX parameters* action prints the parameter list of the focused FX. If an FX has no entry,
   its parameters are bound pairwise (1,2), (3,4), …
@@ -113,4 +114,4 @@ The tests use a mocked REAPER API (`tests/mock_reaper.lua`) and need a plain Lua
 
 ## License
 
-Apache License 2.0, see [LICENSE](../LICENSE) and [NOTICE](../NOTICE).
+Apache License 2.0, see [LICENSE](https://github.com/4irmann/reaper-faderport-driver/blob/main/LICENSE) and [NOTICE](https://github.com/4irmann/reaper-faderport-driver/blob/main/NOTICE).

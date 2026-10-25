@@ -70,7 +70,11 @@ jobs:
           find artifacts -type f \( -name '*-setup.exe' -o -name 'reaper_4irmann_faderport.dll' \
             -o -name 'reaper_4irmann_faderport.dylib' -o -name 'reaper_4irmann_faderport.so' \) \
             -exec cp {} release/ \;
-          (cd lua && zip -r ../release/reaper-faderport-driver-lua-${GITHUB_REF_NAME}.zip . -x 'tests/*')
+          zip_file="release/reaper-faderport-driver-lua-${GITHUB_REF_NAME}.zip"
+          (cd lua && zip -r "../$zip_file" . -x 'tests/*')
+          # license (required by Apache 2.0) and manual next to the scripts
+          zip -r "$zip_file" LICENSE NOTICE MANUAL.md docs
+          unzip -l "$zip_file"
           ls -la release
       - name: Create release
         env:
